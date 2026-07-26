@@ -34,7 +34,7 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
     }
 
     // Access Denied: Kick unauthorized traffic back out to the main landing index page
-    return Response.redirect(`${url.origin}/`, 302);
+    return Response.redirect(`https://vextor-systems.vextor-systems.workers.dev/`, 302);
   }
 
   // 3. Fallthrough: Let the landing page, global search assets, and public docs pass
