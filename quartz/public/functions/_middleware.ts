@@ -64,7 +64,7 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
   
   // Optional: check explicit status (only if your webhook sets status:${email})
   const status = await env.SUBSCRIPTIONS_KV.get(`status:${email}`);
-  if (status && status !== 'active') {
+  if (status && status !== 'revoked') {
     return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302); // <-- PUT YOUR REAL DOMAIN HERE
   }
   
