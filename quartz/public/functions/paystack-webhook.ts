@@ -26,7 +26,7 @@ export const onRequestPost: PagesFunction<{
     await env.SUBSCRIPTIONS_KV.put(`status:${email}`, "active", { expirationTtl: ONE_YEAR });
 
     // Send welcome email with CORRECT magic link
-    const magicLink = `https://garden.playable.earth/auth?token=${sessionToken}`;
+    const magicLink = `https://vextor-systems.vextor-systems.workers.dev/`;
     
     await fetch("https://api.resend.com/emails", {
       method: "POST",
