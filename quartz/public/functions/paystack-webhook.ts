@@ -26,7 +26,7 @@ export const onRequestPost: PagesFunction<{
     await env.SUBSCRIPTIONS_KV.put(`status:${email}`, "active", { expirationTtl: ONE_YEAR });
 
     // Send welcome email with CORRECT magic link
-    const magicLink = `https://vextor-systems.vextor-systems.workers.dev/`;
+    const magicLink = `https://vextor-systems.vextor-systems.workers.dev/auth?token=${sessionToken}`;
     
     await fetch("https://api.resend.com/emails", {
       method: "POST",
