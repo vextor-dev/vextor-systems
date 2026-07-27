@@ -1,9 +1,9 @@
 name = "vextor-systems"
-main = "functions/_middleware.ts"
 compatibility_date = "2026-07-27"
+main = "./_worker.js"
 
-[site]
-bucket = "./public"
+[assets]
+directory = "./public"
 
 [[kv_namespaces]]
 binding = "SUBSCRIPTIONS_KV"
