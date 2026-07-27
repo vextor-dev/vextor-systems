@@ -1,7 +1,12 @@
 name = "vextor-systems"
-compatibility_date = "2026-07-17"
-pages_build_output_dir = "public"
+main = "functions/_middleware.ts"
+compatibility_date = "2026-07-27"
+
+[site]
+bucket = "./public"
 
 [[kv_namespaces]]
 binding = "SUBSCRIPTIONS_KV"
 id = "73491f9b02fc4d928d60bb3ba1cf8ea4"
+
+[vars]
