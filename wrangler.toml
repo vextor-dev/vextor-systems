@@ -1,0 +1,10 @@
+name = "vextor-systems"
+main = "functions/_middleware.ts"
+compatibility_date = "2026-07-27"
+
+[site]
+bucket = "./public"
+
+[[kv_namespaces]]
+binding = "SUBSCRIPTIONS_KV"
+id = "73491f9b02fc4d928d60bb3ba1cf8ea4"
