@@ -28,7 +28,7 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
   }
   
   // ── 4. WHICH PATHS TO PROTECT ──
-  const isProtected = url.pathname.startsWith('/content/') 
+  const isProtected = url.pathname.startsWith('/notes/') 
                    || url.pathname.startsWith('/premium/') 
                    || url.pathname.startsWith('/garden/');
   
