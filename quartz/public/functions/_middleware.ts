@@ -16,7 +16,6 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
   if (queryToken) {
     const email = await env.SUBSCRIPTIONS_KV.get(`token:${queryToken}`);
     if (email) {
-      // Clean the URL (remove ?token=...) and set cookie
       const cleanUrl = url.origin + url.pathname;
       return new Response(null, {
         status: 302,
@@ -29,20 +28,16 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
   }
   
   // ── 4. WHICH PATHS TO PROTECT ──
-  // Protect /notes/, /garden/, or /premium/. 
-  // Everything else (/, /about, /index, etc.) stays public.
   const isProtected = url.pathname.startsWith('/content/') 
                    || url.pathname.startsWith('/premium/') 
                    || url.pathname.startsWith('/garden/');
   
   if (!isProtected) {
-    return next(); // Public page
+    return next();
   }
   
   // ── 5. CHECK COOKIE ──
   const cookieHeader = request.headers.get('Cookie') || '';
-  
-  // Proper cookie parser: find vextor_auth=... handling values with = signs
   let sessionToken: string | null = null;
   for (const cookie of cookieHeader.split(';')) {
     const trimmed = cookie.trim();
@@ -53,21 +48,21 @@ export const onRequest: PagesFunction<{ SUBSCRIPTIONS_KV: KVNamespace }> = async
   }
   
   if (!sessionToken) {
-    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302); // <-- PUT YOUR REAL DOMAIN HERE
+    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302);
   }
   
   // ── 6. VALIDATE TOKEN IN KV ──
   const email = await env.SUBSCRIPTIONS_KV.get(`token:${sessionToken}`);
   if (!email) {
-    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302); // <-- PUT YOUR REAL DOMAIN HERE
+    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302);
   }
   
-  // Optional: check explicit status (only if your webhook sets status:${email})
+  // ── 7. CHECK STATUS ──
   const status = await env.SUBSCRIPTIONS_KV.get(`status:${email}`);
-  if (status && status !== 'revoked') {
-    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302); // <-- PUT YOUR REAL DOMAIN HERE
+  if (status === 'revoked') {
+    return Response.redirect('https://paystack.shop/pay/dhidac7kf8', 302);
   }
   
-  // ── 7. VALID PARTNER ──
+  // ── 8. VALID PARTNER ──
   return next();
 };
